@@ -2,7 +2,11 @@
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
+
+# %matplotlib inline  # ipython魔法函数
+plt.style.use('ggplot')
 
 df = pd.read_csv("DataAnalyst.csv", encoding='gb2312')
 
@@ -26,7 +30,7 @@ def cut_word(word, method):
         return topSalary
 
 
-df_duplicates = df_duplicates.copy() # copy下，防止警告SettingWithCopyWarning
+df_duplicates = df_duplicates.copy()  # copy下，防止警告SettingWithCopyWarning
 df_duplicates['bottomSalary'] = df_duplicates.salary.apply(cut_word, method='bottom')
 df_duplicates['topSalary'] = df_duplicates.salary.apply(cut_word, method='top')
 
@@ -35,9 +39,13 @@ df_duplicates.bottomSalary = df_duplicates.bottomSalary.astype('int')
 df_duplicates.topSalary = df_duplicates.topSalary.astype('int')
 
 # 计算平均工资
-df_duplicates['avgSalary'] = df_duplicates.apply(lambda x:(x.bottomSalary+x.topSalary)/2, axis=1)
+df_duplicates['avgSalary'] = df_duplicates.apply(lambda x: (x.bottomSalary+x.topSalary)/2, axis=1)
 
 df_clean = df_duplicates[['city', 'companyShortName', 'companySize', 'education', 'positionName', 'positionLables',
                           'workYear', 'bottomSalary', 'topSalary', 'avgSalary']]
 
-print(df_clean.head())
+# fig = plt.figure()
+# ax = fig.add_subplot(1,1,1)
+
+plot.his(df_clean.avgSalary)
+plt.show()
