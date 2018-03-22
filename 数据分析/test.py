@@ -47,5 +47,5 @@ df_clean = df_duplicates[['city', 'companyShortName', 'companySize', 'education'
 # fig = plt.figure()
 # ax = fig.add_subplot(1,1,1)
 
-plot.his(df_clean.avgSalary)
+plt.hist(df_clean.avgSalary, bins=15)
 plt.show()
