@@ -37,7 +37,7 @@ for i in title:
 # print(result.fetchone(),title)
 
 def main():
-
+    pass
 
 
 if __name__ == '__main__':
