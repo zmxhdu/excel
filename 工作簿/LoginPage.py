@@ -2,15 +2,16 @@
 
 import tkinter
 import tkinter.messagebox
+import MainPage
 
 
-# 创建应用程序窗口
-root = tkinter.Tk()
-root.geometry('200x150')
-varName = tkinter.StringVar()
-varName.set('')
-varPwd = tkinter.StringVar()
-varPwd.set('')
+# # 创建应用程序窗口
+# root = tkinter.Tk()
+# root.geometry('200x150')
+# varName = tkinter.StringVar()
+# varName.set('')
+# varPwd = tkinter.StringVar()
+# varPwd.set('')
 
 # 创建标签
 labelName = tkinter.Label(root, text='User Name:', justify=tkinter.RIGHT, width=80)
@@ -51,4 +52,14 @@ buttonCancel = tkinter.Button(root, text='Cancel', command=cancel)
 buttonCancel.place(x=130, y=120, width=50, height=20)
 
 
-root.mainloop()
+class Login(object):
+    def __init__(self, master=None):
+        self.root = master
+        self.root.geometry('%dx%d' % (200,150))  # 设置窗口大小
+        self.root.resizable(False, False)
+        self.username = tkinter.StringVar()
+        self.password = tkinter.StringVar()
+        self.createPage()
+
+    def createPage(self):
+
