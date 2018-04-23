@@ -54,6 +54,7 @@ create table TRISK_WORK
 (
   work_id       NUMBER,
   task_id       VARCHAR2(50),
+  project_id    VARCHAR2(50),
   transactor_id VARCHAR2(50),
   dev_id        VARCHAR2(50),
   work_start    DATE,
@@ -70,6 +71,8 @@ comment on column TRISK_WORK.work_id
   is '工作ID自动生成';
 comment on column TRISK_WORK.task_id
   is '任务ID OA号';
+comment on column TRISK_PROJECT.project_id
+  is '项目(客户)ID';
 comment on column TRISK_WORK.transactor_id
   is '经办人ID';
 comment on column TRISK_WORK.dev_id
