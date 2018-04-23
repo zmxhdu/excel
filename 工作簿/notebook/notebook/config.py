@@ -17,7 +17,7 @@ class ProductionConfig(BaseConfig):
 class TestingConfig(BaseConfig):
     """ 测试环境配置 """
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://xrisk_fb01:xrisk@XRISK_74'
+    SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://xrisk:xrisk@XRISK'
 
 
 configs = {
