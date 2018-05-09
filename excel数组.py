@@ -20,6 +20,7 @@ def getconnoracle(username, password, ip, databasename):
         print(Exception)
 
 
+db = getconnoracle('xasset_0100', 'xrisk', '191.168.0.73', 'XRISK')
 cursor = db.cursor()
 
 
@@ -36,9 +37,9 @@ for i in title:
 # ws = wb.add_worksheet()
 # print(result.fetchone(),title)
 
-def main():
-    pass
-
-
-if __name__ == '__main__':
-    main()
+# def main():
+#     pass
+#
+#
+# if __name__ == '__main__':
+#     main()
