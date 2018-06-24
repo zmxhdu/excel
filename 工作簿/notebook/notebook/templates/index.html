@@ -3,7 +3,7 @@
 {% block titele %}Home{% endblock %}
 
 {% block body %}
-    {% for course in courses %}
-        <p>{{ course.name }} - {{ course.author.username }}</p>
+    {% for work in works %}
+        <p>{{ work.work_id }} - {{ work.task_id }}</p>
     {% endfor %}
 {% endblock %}

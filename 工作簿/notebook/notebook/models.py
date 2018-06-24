@@ -11,9 +11,16 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = 'TRISK_USER'
 
+    """用数值表示角色，方便判断是否有权限，比如说有个操作要角色为员工及以上的用户才可以做，那么只要判断 user.role >= ROLE_STAFF就可以了，数值之间设置了 10 的间隔是为了方便以后加入其他角色"""
+    ROLE_USER = 10
+    ROLE_STAFF = 20
+    ROLE_ADMIN = 30
+
     user_id = db.Column('user_id', db.String(50), primary_key=True)  # 用户ID
     _user_password = db.Column('user_password', db.String(100), nullable=False)
     user_name = db.Column('user_name', db.String(100), nullable=False, unique=True)
+
+    # user_works = db.relationship('Work')
 
     @property
     def password(self):
@@ -30,6 +37,14 @@ class User(db.Model):
         """判断用户输入的密码和存储的 hash 密码是否相等
         """
         return check_password_hash(self._user_password, password)
+
+    @property
+    def is_admin(self):
+        return self.role == self.ROLE_ADMIN
+
+    @property
+    def is_staff(self):
+        return self.role == self.ROLE_STAFF
 
 
 class Project(db.Model):
@@ -52,12 +67,15 @@ class Work(db.Model):
     __tablename__ = 'TRISK_WORK'
 
     work_id = db.Column('work_id', db.Integer, primary_key=True)
-    task_id = db.Column('task_id', db.String(50), db.ForeignKey('Task.task_id'))  # 任务 OA ID
-    project_id = db.Column('project_id', db.String(50), db.ForeignKey('Project.project_id'))  # 项目ID
-    transactor_id = db.Column('transactor_id', db.String(50), db.ForeignKey('User.user_id'))  # 经办人ID
-    dev_id = db.Column('dev_id', db.String(50), db.ForeignKey('User.user_id'))  # 开发ID
+    task_id = db.Column('task_id', db.String(50), db.ForeignKey('TRISK_TASK.task_id'))  # 任务 OA ID
+    project_id = db.Column('project_id', db.String(50), db.ForeignKey('TRISK_PROJECT.project_id'))  # 项目ID
+    transactor_id = db.Column('transactor_id', db.String(50), db.ForeignKey('TRISK_USER.user_id'))  # 经办人ID
+    dev_id = db.Column('dev_id', db.String(50), db.ForeignKey('TRISK_USER.user_id'))  # 开发ID
     work_start = db.Column('work_start', db.DATE)
     development = db.Column('development', db.Integer)  # 开发进度
     work_status = db.Column('work_status', db.Integer)  # 开发状态
     work_text = db.Column('work_text', db.String(4000))
     work_end = db.Column('work_end', db.DATE)
+
+    user = db.relationship('User', uselist=False)
+#TODO:主外键关系构建
