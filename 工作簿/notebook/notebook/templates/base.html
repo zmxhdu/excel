@@ -20,13 +20,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Simpledu</a>
+            <a class="navbar-brand" href="/">xAssetV4.2</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling-->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/">课程<span class="sr-only">( current )</span> </a> </li>
+                <li class="active"><a href="/">任务<span class="sr-only">( current )</span> </a> </li>
                 <!--<li><a href="#">直播</a> </li>-->
                 {% if current_user.is_authenticated and current_user.is_admin %}
                 <li><a href="{{ url_for('admin.index') }}">控制台</a> </li>
@@ -38,7 +38,7 @@
                     <li><a href="{{ url_for('front.login') }}">登录</a> </li>
                 {% else %}
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ current_user.username }}<span class="caret"></span> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ current_user.user_name }}<span class="caret"></span> </a>
                         <ul class="dropdown-menu">
                             <li><a href="#">个人主页</a> </li>
                             <li role="separator" class="divider"></li>
@@ -52,7 +52,7 @@
 </nav>
 
 <div class="container">
-    {% with messages = get_flashed_messages(with_captegories=true) %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         {% for category, message in messages %}
         <div class="alert alert-{{ category }} alert-dismissible" role="alert">

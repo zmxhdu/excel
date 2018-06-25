@@ -12,6 +12,14 @@ class RegisterForm(FlaskForm):
     repeat_user_password = PasswordField('重复密码', validators=[DataRequired(), EqualTo('user_password')])
     submit = SubmitField('提交')
 
+    def validate_user_name(self, field):
+        if User.query.filter_by(user_name=field.data).first():
+            raise ValidationError('用户名已经存在')
+
+    # def validate_user_email(self, field):
+    #     if User.query.filter_by(user_email=field.data).first():
+    #         raise ValidationError('邮箱已经存在')
+
     def create_user(self):
         user = User()
         user.user_name = self.user_name.data
@@ -21,14 +29,6 @@ class RegisterForm(FlaskForm):
         db.session.commit()
 
         return user
-
-    def validate_user_name(self, field):
-        if User.query.filter_by(user_name=field.data).first():
-            raise ValidationError('用户名已经存在')
-
-    # def validate_user_email(self, field):
-    #     if User.query.filter_by(user_email=field.data).first():
-    #         raise ValidationError('邮箱已经存在')
 
 
 class LoginForm(FlaskForm):

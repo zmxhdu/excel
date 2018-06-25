@@ -1,5 +1,4 @@
 # coding = utf-8
-
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -77,5 +76,5 @@ class Work(db.Model):
     work_text = db.Column('work_text', db.String(4000))
     work_end = db.Column('work_end', db.DATE)
 
-    user = db.relationship('User', uselist=False)
-#TODO:主外键关系构建
+    transactor_user = db.relationship('User', foreign_keys='Work.transactor_id')
+    dev_user = db.relationship('User', foreign_keys='Work.dev_id')
