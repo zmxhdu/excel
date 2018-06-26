@@ -34,12 +34,12 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    user_id = StringField('用户名', validators=[DataRequired(), Length(2,100)])
-    user_password = PasswordField('密码', validators=[DataRequired(), Length(6,24)])
+    user_id = StringField('用户名', validators=[DataRequired(), Length(2, 100)])
+    user_password = PasswordField('密码', validators=[DataRequired(), Length(6, 24)])
     remember_me = BooleanField('记住我')
     submit = SubmitField('提交')
 
-    def validate_user_name(self, field):
+    def validate_user_id(self, field):
         if field.data and not User.query.filter_by(user_id=field.data).first():
             raise ValidationError('用户名未注册')
 

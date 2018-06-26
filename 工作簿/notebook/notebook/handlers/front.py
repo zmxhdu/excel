@@ -25,8 +25,8 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(user_name=form.user_name.data).first()
-        logout_user(user, form.remember_me.data)
+        user = User.query.filter_by(user_id=form.user_id.data).first()
+        login_user(user, form.remember_me.data)
         return redirect(url_for('.index'))
 
     return render_template('login.html', form=form)

@@ -1,13 +1,14 @@
 # coding = utf-8
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 db = SQLAlchemy()
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'TRISK_USER'
 
     """用数值表示角色，方便判断是否有权限，比如说有个操作要角色为员工及以上的用户才可以做，那么只要判断 user.role >= ROLE_STAFF就可以了，数值之间设置了 10 的间隔是为了方便以后加入其他角色"""
@@ -15,6 +16,7 @@ class User(db.Model):
     ROLE_STAFF = 20
     ROLE_ADMIN = 30
 
+    #TODO:添加ID，并自增长
     user_id = db.Column('user_id', db.String(50), primary_key=True)  # 用户ID
     _user_password = db.Column('user_password', db.String(100), nullable=False)
     user_name = db.Column('user_name', db.String(100), nullable=False, unique=True)
@@ -22,12 +24,12 @@ class User(db.Model):
     # user_works = db.relationship('Work')
 
     @property
-    def password(self):
-        """ Python风格的getter """
+    def user_password(self):
+        """ Python风格的getter,对应user_password """
         return self._user_password
 
-    @password.setter
-    def password(self, orig_password):
+    @user_password.setter
+    def user_password(self, orig_password):
         """ Python 风格的 setter，这样设置 user.user_password 就会自动为 password 生成哈希值存入 _user_password 字段
         """
         self._user_password = generate_password_hash(orig_password)
@@ -44,6 +46,11 @@ class User(db.Model):
     @property
     def is_staff(self):
         return self.role == self.ROLE_STAFF
+
+    #return id
+    @property
+    def id(self):
+        return self.user_id
 
 
 class Project(db.Model):
