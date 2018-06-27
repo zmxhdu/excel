@@ -16,10 +16,12 @@ class User(db.Model, UserMixin):
     ROLE_STAFF = 20
     ROLE_ADMIN = 30
 
-    #TODO:添加ID，并自增长
-    user_id = db.Column('user_id', db.String(50), primary_key=True)  # 用户ID
+    # TODO:ID作为主键，但是不设置默认值，保存的时候会报错
+    id = db.Column('id', db.String(50), primary_key=True, default=1)
+    user_id = db.Column('user_id', db.String(50), nullable=False, unique=True)  # 用户ID
     _user_password = db.Column('user_password', db.String(100), nullable=False)
     user_name = db.Column('user_name', db.String(100), nullable=False, unique=True)
+    user_role = db.Column('user_role', db.SmallInteger, default=ROLE_USER)
 
     # user_works = db.relationship('Work')
 
@@ -46,11 +48,6 @@ class User(db.Model, UserMixin):
     @property
     def is_staff(self):
         return self.role == self.ROLE_STAFF
-
-    #return id
-    @property
-    def id(self):
-        return self.user_id
 
 
 class Project(db.Model):
