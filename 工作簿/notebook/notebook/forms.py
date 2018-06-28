@@ -6,9 +6,9 @@ from notebook.models import db, User, Work
 
 
 class RegisterForm(FlaskForm):
-    user_name = StringField('用户名称', validators=[DataRequired(), Length(2,100)])
+    user_name = StringField('用户', validators=[DataRequired(), Length(2,100)])
     # user_email = StringField('邮箱', validators=[DataRequired(), Email()])
-    user_id = StringField('用户名', validators=[DataRequired(), Length(3,24)])
+    user_id = StringField('帐号', validators=[DataRequired(), Length(3,24)])
     user_password = PasswordField('密码', validators=[DataRequired(), Length(6,24)])
     repeat_user_password = PasswordField('重复密码', validators=[DataRequired(), EqualTo('user_password')])
     submit = SubmitField('提交')
@@ -34,16 +34,23 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    user_id = StringField('用户名', validators=[DataRequired(), Length(2, 100)])
+    user_id = StringField('帐号', validators=[DataRequired(), Length(2, 100)])
     user_password = PasswordField('密码', validators=[DataRequired(), Length(6, 24)])
     remember_me = BooleanField('记住我')
     submit = SubmitField('提交')
 
     def validate_user_id(self, field):
         if field.data and not User.query.filter_by(user_id=field.data).first():
-            raise ValidationError('用户名未注册')
+            raise ValidationError('帐号未注册')
 
     def validate_user_password(self, field):
         user = User.query.filter_by(user_id=self.user_id.data).first()
         if user and not user.check_password(field.data):
             raise ValidationError('密码错误')
+
+
+class ChangePassWordForm(FlaskForm):
+    old_password = PasswordField('旧密码', validators=[DataRequired(), Length(6, 24)])
+    new_password = PasswordField('新密码', validators=[DataRequired(), Length(6, 24)])
+    repeat_new_password = PasswordField('重复新密码', validators=[DataRequired(), EqualTo('new_password')])
+    submit = SubmitField('提交')

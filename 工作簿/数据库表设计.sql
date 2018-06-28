@@ -1,20 +1,42 @@
 -- Create table
 create table TRISK_USER
 (
+  id            VARCHAR2(50),
   user_id       VARCHAR2(50),
   user_password VARCHAR2(100),
-  user_name     VARCHAR2(100)
+  user_name     VARCHAR2(100),
+  user_role     VARCHAR2(50)
 );
--- Add comments to the table 
-comment on table TRISK_USER
+-- Add comments to the table
+comment on table
   is '用户信息表';
--- Add comments to the columns 
+-- Add comments to the columns
+comment on column TRISK_USER.id
+  is 'ID自动生成';
 comment on column TRISK_USER.user_id
   is '用户账户';
 comment on column TRISK_USER.user_password
   is '用户密码';
 comment on column TRISK_USER.user_name
   is '用户名';
+comment on column TRISK_USER.user_role
+is '用户角色';
+
+alter table TRISK_USER add constraint pk_id primary key(id);
+
+create sequence S_TRISK_USER
+increment by 1
+start with 1
+nomaxvalue
+nominvalue
+nocache;
+
+create or replace trigger INSERT_TRISK_USER before insert on TRISK_USER
+referencing old as old new as new
+for each row
+begin
+    select S_TRISK_USER.nextval into :NEW.ID from dual;
+end;
 -- Create table
 create table TRISK_PROJECT
 (

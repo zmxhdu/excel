@@ -1,9 +1,9 @@
 # coding = utf-8
 from flask import Blueprint, render_template, flash, url_for, redirect
-from flask import request, current_app
+from flask import request, current_app, abort
 from notebook.models import db, User, Work
-from notebook.forms import LoginForm, RegisterForm
-from flask_login import login_user, logout_user, login_required
+from notebook.forms import LoginForm, RegisterForm, ChangePassWordForm
+from flask_login import login_user, logout_user, login_required, current_user
 
 
 front = Blueprint('front', __name__)
@@ -48,3 +48,20 @@ def logout():
     logout_user()
     flash('您已经退出登录', 'success')
     return redirect(url_for('.index'))
+
+
+@front.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePassWordForm()
+    if form.validate_on_submit():
+        if current_user.check_password(form.old_password.data):
+            current_user.user_password = form.new_password.data
+            db.session.add(current_user)
+            db.session.commit()
+            flash('密码修改成功，请重新登录')
+            logout_user()
+            return redirect(url_for('.login'))
+        else:
+            flash('密码错误')
+    return render_template('change_password.html', form=form)
