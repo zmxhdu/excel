@@ -58,13 +58,13 @@ def xALR_property_rules_check(file, filename):
             for row in range(1, rows+1):
                 for col in range(1, cols+1):
                     cell = xALR_property_rules_sheet.cell(row, col)
-                    if cell.fill != None and cell.fill.start_color.rgb == 'FF00B0F0':  # FF00B0F0 蓝色
+                    if cell.fill != None and cell.fill.start_color.rgb == 'FF00B0F0' or cell.fill.start_color.theme == 1:  # FF00B0F0 蓝色
                         test_cell = xALR_test_sheet.cell(row, col)
-                        if not test_cell or test_cell.value!= cell.value:
-                            print(file, sheet, "单元格：", row, col, "不存在或公式错误", "正确公式为:", cell.value, "实际值为：", test_cell.value)
+                        if not test_cell or test_cell.value != cell.value:
+                            print(file, sheet, "单元格：", cell.coordinate, "不存在或公式错误", "正确公式为:", cell.value, "实际值为：", test_cell.value)
                             test_cell_error_count += 1
 
-        if test_cell_error_count>0:
+        if test_cell_error_count > 0:
             print("存在 %d 处错误,校验不通过" % test_cell_error_count)
         else:
             print("校验通过")
@@ -90,13 +90,13 @@ def xALR_life_rules_check(file, filename):
             for row in range(1, rows+1):
                 for col in range(1, cols+1):
                     cell = xALR_lift_rules_sheet.cell(row, col)
-                    if cell.fill != None and cell.fill.start_color.rgb == 'FFFFC000':  # FFFFC000 黄色
+                    if cell.fill != None and cell.fill.start_color.rgb == 'FFFFC000' or cell.fill.start_color.theme == 1:  # FFFFC000 黄色
                         test_cell = xALR_test_sheet.cell(row, col)
-                        if not test_cell or test_cell.value!= cell.value:
-                            print(file, sheet, "单元格：", row, col, "不存在或公式错误", "正确公式为:", cell.value, "实际值为：", test_cell.value)
+                        if not test_cell or test_cell.value != cell.value:
+                            print(file, sheet, "单元格：", cell.coordinate, "不存在或公式错误", "正确公式为:", cell.value, "实际值为：", test_cell.value)
                             test_cell_error_count += 1
 
-        if test_cell_error_count>0:
+        if test_cell_error_count > 0:
             print("存在 %d 处错误,校验不通过" % test_cell_error_count)
         else:
             print("校验通过")
@@ -104,7 +104,7 @@ def xALR_life_rules_check(file, filename):
 
 if __name__ == '__main__':
     try:
-        file = '银保监发[2018]28号附件3-人身险 - 副本.xlsx'
+        file = '银保监发(2018)28号附件2_英大0620-财产险 - 副本.xlsx'
         xALR_test_wb = openpyxl.load_workbook(file, read_only=False)
     except FileNotFoundError as file_error:
         print(file_error)
