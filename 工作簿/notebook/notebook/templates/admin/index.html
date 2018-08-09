@@ -1,4 +1,4 @@
-{% extend "base.html" %}
+{% extends "base.html" %}
 
 {% block title %}
 Admin
@@ -16,7 +16,7 @@ Admin
     </div>
 
     <div class="col-md-9">
-        {% bolck admin %}{% endbolck %}
+        {% block admin %}{% endblock %}
     </div>
 </div>
 {% endblock %}
