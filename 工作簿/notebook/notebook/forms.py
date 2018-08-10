@@ -1,7 +1,7 @@
 # coding = utf-8
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, ValidationError
-from wtforms.validators import Length, Email, EqualTo, DataRequired
+from wtforms.validators import Length, Email, EqualTo, DataRequired, NumberRange
 from notebook.models import db, User, Work
 
 
@@ -54,3 +54,27 @@ class ChangePassWordForm(FlaskForm):
     new_password = PasswordField('新密码', validators=[DataRequired(), Length(6, 24)])
     repeat_new_password = PasswordField('重复新密码', validators=[DataRequired(), EqualTo('new_password')])
     submit = SubmitField('提交')
+
+
+class WorkForm(FlaskForm):
+    task_id = IntegerField('任务 OA ID', validators=[DataRequired()])
+    transactor_id = IntegerField('经办人', validators=[DataRequired(), NumberRange(min=1, message='无效的用户ID')])
+    work_text = TextAreaField('任务描述', validators=[DataRequired(), Length(2,4000)])
+    submit = SubmitField('提交')
+
+    def validate_transactor_id(self, field):
+        if not User.query.get(self.transactor_id.data):
+            raise ValidationError('用户不存在')
+
+    def create_work(self):
+        work = Work()
+        self.populate_obj(work)
+        db.session.add(work)
+        db.session.commit()
+        return work
+
+    def update_work(self):
+        self.populate_obj(work)
+        db.session.add(work)
+        db.session.commit()
+        return work

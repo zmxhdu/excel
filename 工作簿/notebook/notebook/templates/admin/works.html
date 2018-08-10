@@ -1,0 +1,49 @@
+{% extends "admin/index.html" %}
+{% from "macros.html" import render_pagination %}
+
+{% block title %}
+Admin - works
+{% endblock %}
+
+{% block operation %}
+<a href="{{ url_for('admin.create_work') }}" type="button" class="btn btn-primary">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    添加任务
+</a>
+{% endblock %}
+
+{% block admin %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>任务OA</th>
+            <th>经办人</th>
+            <th>任务状态</th>
+            <th>任务描述</th>
+            <th>操作</th>
+        </tr>
+        <tbody>
+            {% for work in pagination.items %}
+            <tr>
+                <td>{{ work.task_id }}</td>
+                <td>{{ work.transactor_id }}</td>
+                <td>{{ work.work_status }}</td>
+                <td>{{ work.work_text }}</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="" type="button" class="btn btn-default" title="编辑">
+                            <span class="glyphicon glyphicon-pencil" title="编辑" aria-hidden="true"></span>
+                        </a>
+                        <a href="" type="button" class="btn btn-default" title="删除">
+                            <span class="glyphicon glyphicon-trash" title="删除" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </thead>
+</table>
+
+{{ render_pagination(pagination, 'admin.works') }}
+{% endblock %}
