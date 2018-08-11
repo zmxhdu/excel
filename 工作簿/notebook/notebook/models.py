@@ -43,11 +43,11 @@ class User(db.Model, UserMixin):
 
     @property
     def is_admin(self):
-        return self.role == self.ROLE_ADMIN
+        return self.user_role == self.ROLE_ADMIN
 
     @property
     def is_staff(self):
-        return self.role == self.ROLE_STAFF
+        return self.user_role == self.ROLE_STAFF
 
 
 class Project(db.Model):

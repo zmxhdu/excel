@@ -1,15 +1,15 @@
 # coding = utf-8
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, ValidationError, SelectField
 from wtforms.validators import Length, Email, EqualTo, DataRequired, NumberRange
 from notebook.models import db, User, Work
 
 
 class RegisterForm(FlaskForm):
-    user_name = StringField('用户', validators=[DataRequired(), Length(2,100)])
+    user_name = StringField('用户', validators=[DataRequired(), Length(2, 100)])
     # user_email = StringField('邮箱', validators=[DataRequired(), Email()])
-    user_id = StringField('帐号', validators=[DataRequired(), Length(3,24)])
-    user_password = PasswordField('密码', validators=[DataRequired(), Length(6,24)])
+    user_id = StringField('帐号', validators=[DataRequired(), Length(3, 24)])
+    user_password = PasswordField('密码', validators=[DataRequired(), Length(6, 24)])
     repeat_user_password = PasswordField('重复密码', validators=[DataRequired(), EqualTo('user_password')])
     submit = SubmitField('提交')
 
@@ -58,13 +58,14 @@ class ChangePassWordForm(FlaskForm):
 
 class WorkForm(FlaskForm):
     task_id = IntegerField('任务 OA ID', validators=[DataRequired()])
-    transactor_id = IntegerField('经办人', validators=[DataRequired(), NumberRange(min=1, message='无效的用户ID')])
-    work_text = TextAreaField('任务描述', validators=[DataRequired(), Length(2,4000)])
+    transactor_id = SelectField('经办人', validators=[DataRequired()])
+    work_text = TextAreaField('任务描述', validators=[DataRequired(), Length(2, 4000)])
+    work_status = SelectField('任务状态', validators=[DataRequired()], choices=[('0', '未开始'), ('1', '正在进行'), ('2', '提交测试') ,('3', '完成'), ('-1', '暂停')])
     submit = SubmitField('提交')
 
-    def validate_transactor_id(self, field):
-        if not User.query.get(self.transactor_id.data):
-            raise ValidationError('用户不存在')
+    def __init__(self, *args, **kwargs):
+        super(WorkForm, self).__init__(*args, **kwargs)
+        self.transactor_id.choices = [(u.id, u.user_name) for u in User.query.all()]
 
     def create_work(self):
         work = Work()
@@ -73,8 +74,13 @@ class WorkForm(FlaskForm):
         db.session.commit()
         return work
 
-    def update_work(self):
+    def update_work(self, work):
         self.populate_obj(work)
         db.session.add(work)
         db.session.commit()
         return work
+
+    def delete_work(self, work):
+        self.populate_obj(work)
+        db.session.delete(work)
+        db.session.commit()

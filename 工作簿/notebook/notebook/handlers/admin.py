@@ -33,3 +33,25 @@ def create_work():
         flash('任务添加成功', 'success')
         return redirect(url_for('admin.works'))
     return render_template('admin/create_work.html', form=form)
+
+
+@admin.route('/works/<int:work_id>/edit', methods=['GET', 'POST'])
+@admin_required
+def edit_work(work_id):
+    work = Work.query.get_or_404(work_id)
+    form = WorkForm(obj=work)
+    if form.validate_on_submit():
+        form.update_work(work)
+        flash('任务更新成功', 'success')
+        return redirect(url_for('admin.works'))
+    return render_template('admin/edit_work.html', form=form, work=work)
+
+
+@admin.route('/works/<int:work_id>/delete')
+@admin_required
+def delete_work(work_id):
+    work = Work.query.get_or_404(work_id)
+    form = WorkForm(obj=work)
+    form.delete_work(work)
+    flash('任务删除成功', 'success')
+    return redirect(url_for('admin.works'))

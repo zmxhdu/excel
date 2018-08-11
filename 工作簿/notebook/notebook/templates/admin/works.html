@@ -31,10 +31,10 @@ Admin - works
                 <td>{{ work.work_text }}</td>
                 <td>
                     <div class="btn-group" role="group">
-                        <a href="" type="button" class="btn btn-default" title="编辑">
+                        <a href="{{ url_for('admin.edit_work', work_id=work.work_id) }}" type="button" class="btn btn-default" title="编辑">
                             <span class="glyphicon glyphicon-pencil" title="编辑" aria-hidden="true"></span>
                         </a>
-                        <a href="" type="button" class="btn btn-default" title="删除">
+                        <a href="{{ url_for('admin.delete_work', work_id=work.work_id) }}" type="button" onclick="return del()" class="btn btn-default" title="删除">
                             <span class="glyphicon glyphicon-trash" title="删除" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -44,6 +44,15 @@ Admin - works
         </tbody>
     </thead>
 </table>
-
+    <script type="text/javascript">
+    function del() {
+        if(confirm("是否确认删除该任务")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    </script>
 {{ render_pagination(pagination, 'admin.works') }}
 {% endblock %}
