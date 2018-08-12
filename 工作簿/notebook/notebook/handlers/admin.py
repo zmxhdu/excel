@@ -55,3 +55,5 @@ def delete_work(work_id):
     form.delete_work(work)
     flash('任务删除成功', 'success')
     return redirect(url_for('admin.works'))
+
+#TODO:管理员添加项目、用户功能

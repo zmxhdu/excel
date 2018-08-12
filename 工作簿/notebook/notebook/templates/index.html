@@ -1,9 +1,41 @@
 {% extends "base.html" %}
+{% from "macros.html" import render_pagination %}
 
 {% block titele %}Home{% endblock %}
 
 {% block body %}
-    {% for work in works %}
-        <p>{{ work.work_id }} - {{ work.task_id }}</p>
-    {% endfor %}
+    <table class="table" style="table-layout: fixed">
+        <thead>
+            <tr>
+                <th>任务OA</th>
+                <th>项目</th>
+                <th>经办人</th>
+                <th>任务状态</th>
+                <th>任务描述</th>
+                <th>操作</th>
+            </tr>
+            <tbody>
+                {% for work in pagination.items %}
+                <tr>
+                    <td>{{ work.task_id }}</td>
+                    <td>{{ work.project_id }}</td>
+                    <td>{{ work.transactor_id }}</td>
+                    <td>{{ work.work_status }}</td>
+                    <td style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                        <a href="{{ url_for('work.detail', work_id=work.work_id) }}">
+                            {{ work.work_text }}
+                        </a>
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{{ url_for('admin.edit_work', work_id=work.work_id) }}" type="button" class="btn btn-default" title="编辑">
+                                <span class="glyphicon glyphicon-pencil" title="编辑" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </thead>
+    </table>
 {% endblock %}

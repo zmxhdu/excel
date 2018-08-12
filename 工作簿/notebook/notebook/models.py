@@ -1,5 +1,6 @@
 # coding = utf-8
 from datetime import datetime
+from flask import url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -82,3 +83,7 @@ class Work(db.Model):
 
     transactor_user = db.relationship('User', foreign_keys='Work.transactor_id')
     dev_user = db.relationship('User', foreign_keys='Work.dev_id')
+
+    @property
+    def url(self):
+        return url_for('work.detail.html', work_id=self.work_id)
