@@ -8,7 +8,7 @@ create table TRISK_USER
   user_role     VARCHAR2(50)
 );
 -- Add comments to the table
-comment on table
+comment on table TRISK_USER
   is '用户信息表';
 -- Add comments to the columns
 comment on column TRISK_USER.id
@@ -37,6 +37,7 @@ for each row
 begin
     select S_TRISK_USER.nextval into :NEW.ID from dual;
 end;
+/
 -- Create table
 create table TRISK_PROJECT
 (
