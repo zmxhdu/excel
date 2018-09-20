@@ -110,3 +110,19 @@ comment on column TRISK_WORK.work_text
   is '备注';
 comment on column TRISK_WORK.work_end
   is '任务结束时间';
+  
+  
+create sequence S_TRISK_WORK
+increment by 1
+start with 1
+nomaxvalue
+nominvalue
+nocache;
+
+create or replace trigger INSERT_TRISK_WORK before insert on TRISK_WORK
+referencing old as old new as new
+for each row
+begin
+    select S_TRISK_WORK.nextval into :NEW.WORK_ID from dual;
+end;
+/
