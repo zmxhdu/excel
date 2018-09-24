@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, current_app, flash, redirect, url_for
 from notebook.decorators import admin_required
-from notebook.models import Work
+from notebook.models import db, Work, User
 from notebook.forms import WorkForm
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
@@ -16,7 +16,8 @@ def index():
 @admin_required
 def works():
     page = request.args.get('page', default=1, type=int)
-    pagination = Work.query.paginate(
+    pagination = db.session.query(Work.task_id, Work.project_id, Work.work_status, Work.work_text, Work.work_id,
+                                  User.user_name).join(User, User.user_id == Work.transactor_id).paginate(
         page=page,
         per_page=current_app.config['ADMIN_PER_PAGE'],
         error_out=False

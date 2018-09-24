@@ -12,7 +12,8 @@ front = Blueprint('front', __name__)
 @front.route('/')
 def index():
     page = request.args.get('page', default=1, type=int)
-    pagination = Work.query.paginate(
+    pagination = db.session.query(Work.task_id, Work.project_id, Work.work_status, Work.work_text, Work.work_id,
+                                  User.user_name).join(User, User.user_id == Work.transactor_id).paginate(
         page=page,
         per_page=current_app.config['INDEX_PER_PAGE'],
         error_out=False

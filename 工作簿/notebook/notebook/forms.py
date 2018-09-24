@@ -1,6 +1,6 @@
 # coding = utf-8
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, ValidationError, SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, ValidationError, SelectField, RadioField
 from wtforms.validators import Length, Email, EqualTo, DataRequired, NumberRange
 from notebook.models import db, User, Work
 
@@ -59,13 +59,18 @@ class ChangePassWordForm(FlaskForm):
 class WorkForm(FlaskForm):
     task_id = IntegerField('任务 OA ID', validators=[DataRequired()])
     transactor_id = SelectField('经办人', validators=[DataRequired()])
+    # dev_id = SelectField('开发人员', validators=[DataRequired()])
     work_text = TextAreaField('任务描述', validators=[DataRequired(), Length(2, 4000)])
+    # development = RadioField('开发进度', validators=[DataRequired()])
     work_status = SelectField('任务状态', validators=[DataRequired()], choices=[('0', '未开始'), ('1', '正在进行'), ('2', '提交测试') ,('3', '完成'), ('-1', '暂停')])
     submit = SubmitField('提交')
 
     def __init__(self, *args, **kwargs):
         super(WorkForm, self).__init__(*args, **kwargs)
         self.transactor_id.choices = [(u.id, u.user_name) for u in User.query.all()]
+        # self.dev_id.choices = [(u.id, u.user_name) for u in User.query.all()]
+        # self.transactor_id.choices = [(u.id, u.user_name) for u in User.query.all()]
+
 
     def create_work(self):
         work = Work()
