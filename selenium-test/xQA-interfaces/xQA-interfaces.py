@@ -5,7 +5,8 @@ import datetime
 import market_interfaces
 
 
-postUrl = 'http://191.168.6.6:8180/xalms/engine/calc.action'
+# 批量接口
+postUrl = 'http://191.168.6.6:8180/xalms/engine/calcBatch.action'
 
 payloadHeader = {
     'Host': '191.168.6.6:8180',
@@ -14,15 +15,26 @@ payloadHeader = {
 # 下载超时
 timeOut = 250
 
+
 if __name__ == '__main__':
-    postUrl = postUrl
     header_data = payloadHeader
-    instrumentList = [{'iCode':'000300','aType':'IDX_S','mType':'XSHG'}]
+    instrumentList = [{'iCode': '000300', 'aType': 'IDX_S', 'mType': 'XSHG'},
+                      {'iCode': '000016', 'aType': 'IDX_S', 'mType': 'XSHG'}]
     begDate = '2019-06-01'
     endDate = '2019-06-30'
+    valueDate = '2019-06-30'
     sampleLenth = '0'
 
-    interface = market_interfaces.calcTidxForReal(postUrl,header_data,instrumentList,begDate,endDate,sampleLenth)
-    res = interface.result().text
+    # 指数批量
+    interface_tidxforreal = market_interfaces.CalcTidxForReal(
+        postUrl, header_data, instrumentList, begDate, endDate, sampleLenth)
+    # 指数其他
+    interface_tidx = market_interfaces.CalcTidx(postUrl, header_data, instrumentList, valueDate)
+    res = interface_tidx.result().text
     result = json.loads(res)
-    print(result['result'])
+
+    if result['code'] == '-1':
+        print(result['message'])
+    else:
+        for result_detail in result['result']:
+            print(result_detail)
