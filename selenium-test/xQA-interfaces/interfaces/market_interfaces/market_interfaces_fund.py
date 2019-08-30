@@ -30,7 +30,7 @@ class CalcFundForReal(object):
 
         result = requests.post(self.postUrl, data=json.dumps(interfaces_data), headers=self.header_data)
 
-        return result
+        return interfaces_data, result
 
 
 class CalcFundInvlForReal(object):
@@ -60,7 +60,7 @@ class CalcFundInvlForReal(object):
 
         result = requests.post(self.postUrl, data=json.dumps(interfaces_data), headers=self.header_data)
 
-        return result
+        return interfaces_data, result
 
 
 class CalcFund(object):
@@ -80,4 +80,4 @@ class CalcFund(object):
 
         result = requests.post(self.postUrl, data=json.dumps(interfaces_data), headers=self.header_data)
 
-        return result
+        return interfaces_data, result

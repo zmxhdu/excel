@@ -30,7 +30,7 @@ class CalcTidxForReal(object):
 
         result = requests.post(self.postUrl, data=json.dumps(interfaces_data), headers=self.header_data)
 
-        return result
+        return interfaces_data, result
 
 
 class CalcTidxInvlForReal(object):
@@ -60,7 +60,7 @@ class CalcTidxInvlForReal(object):
 
         result = requests.post(self.postUrl, data=json.dumps(interfaces_data), headers=self.header_data)
 
-        return result
+        return interfaces_data, result
 
 
 class CalcTidx(object):
@@ -80,4 +80,4 @@ class CalcTidx(object):
 
         result = requests.post(self.postUrl, data=json.dumps(interfaces_data), headers=self.header_data)
 
-        return result
+        return interfaces_data, result

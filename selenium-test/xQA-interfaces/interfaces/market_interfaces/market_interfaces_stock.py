@@ -30,7 +30,7 @@ class CalcStockForReal(object):
 
         result = requests.post(self.postUrl, data=json.dumps(interfaces_data), headers=self.header_data)
 
-        return result
+        return interfaces_data, result
 
 
 class CalcStockInvlForReal(object):
@@ -60,7 +60,7 @@ class CalcStockInvlForReal(object):
 
         result = requests.post(self.postUrl, data=json.dumps(interfaces_data), headers=self.header_data)
 
-        return result
+        return interfaces_data, result
 
 
 class CalcStock(object):
@@ -80,4 +80,4 @@ class CalcStock(object):
 
         result = requests.post(self.postUrl, data=json.dumps(interfaces_data), headers=self.header_data)
 
-        return result
+        return interfaces_data, result

@@ -30,9 +30,10 @@ if __name__ == '__main__':
     #     postUrl, header_data, instrumentList, begDate, endDate, sampleLenth)
     # 指数其他
     interface_tidx = CalcTidx(postUrl, header_data, instrumentList, valueDate)
-    res = interface_tidx.result().text
-    result = json.loads(res)
-    print(CalcTidx)
+    interfaces_data, res = interface_tidx.result()
+    # res = interface_tidx.result().text
+    result = json.loads(res.text)
+    print(interfaces_data)
 
     if result['code'] == '-1':
         print(result['message'])
