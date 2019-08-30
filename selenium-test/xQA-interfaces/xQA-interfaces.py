@@ -2,7 +2,7 @@
 import json
 import requests
 import datetime
-import market_interfaces
+from market_interfaces.market_interfaces_tidx import CalcTidxForReal,CalcTidxInvlForReal,CalcTidx
 
 
 # 批量接口
@@ -26,12 +26,13 @@ if __name__ == '__main__':
     sampleLenth = '0'
 
     # 指数批量
-    interface_tidxforreal = market_interfaces.CalcTidxForReal(
-        postUrl, header_data, instrumentList, begDate, endDate, sampleLenth)
+    # interface_tidxforreal = CalcTidxForReal(
+    #     postUrl, header_data, instrumentList, begDate, endDate, sampleLenth)
     # 指数其他
-    interface_tidx = market_interfaces.CalcTidx(postUrl, header_data, instrumentList, valueDate)
+    interface_tidx = CalcTidx(postUrl, header_data, instrumentList, valueDate)
     res = interface_tidx.result().text
     result = json.loads(res)
+    print(CalcTidx)
 
     if result['code'] == '-1':
         print(result['message'])
