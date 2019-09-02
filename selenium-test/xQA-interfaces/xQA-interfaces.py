@@ -40,33 +40,50 @@ if __name__ == '__main__':
                       {'iCode': '151098', 'aType': 'SPT_BD', 'mType': 'XSHG'}]
     interface_bond = CalcBond(postUrl, header_data, instrumentList, valueDate)
     interfaces_data, res = interface_bond.result()
-    result = json.loads(res.text)
+    resultList = json.loads(res.text)
     # print(result['result'])
-
-    result_df = pd.DataFrame()
-
-    if result['code'] == '-1':
-        print(result['message'])
+    instrument_df = []
+    result_df = []
+    result_detail = []
+    indexList_df = []
+    if resultList['code'] == '-1':
+        print(resultList['message'])
     else:
-        for result_detail, instrument in zip(result['result'], instrumentList):
-            # for instrument_key, instrument_value in instrument.items():
-            #     if type(instrument_value) is list:
-            #         for i in range(0, len(instrument_value)):
-            #             index = instrument_key + '_' + str(i)
-            #             print(index, instrument_value[i])
-            #     else:
-            #         print(instrument_key, instrument_value)
-            # for result_key, result_value in result_detail.items():
-            #     if type(result_value) is list:
-            #         for i in range(0, len(result_value)):
-            #             index = result_key + '_' + str(i)
-            #             print(index, result_value[i])
-            #     else:
-            #         print(result_key, result_value)
-            instrument_df_detail = pd.DataFrame(instrument, index=[0])
-            result_df_detail = pd.DataFrame(result_detail)
-            # print(result_df_detail)
-            # result_df_detail = pd.merge(instrument_df_detail, result_df_detail)
+        for instrument, result in zip(instrumentList, resultList['result']):
+            count = 0
+            for instrument_key, instrument_value in instrument.items():
+                if type(instrument_value) is list:
+                    for i in range(0, len(instrument_value)):
+                        if indexList_df is None:
+                            index = instrument_key + '_' + str(i)
+                            if count == 0:
+                                indexList_df.append(index)
+                            result_detail.append(instrument_value[i])
+                else:
+                    # print(instrument_key, instrument_value)
+                    indexList_df.append(instrument_key)
+                    result_detail.append(instrument_value)
+                # if instrument_df is None:
 
-            # result_df.merge(result_df,result_df_detail)
-            result_df_detail.to_excel('test.xlsx')
+            for result_key, result_value in result.items():
+                if type(result_value) is list:
+                    for i in range(0, len(result_value)):
+                        index = result_key + '_' + str(i)
+                        # print(index, result_value[i])
+                        if count == 0:
+                            indexList_df.append(index)
+                        result_detail.append(result_value[i])
+                else:
+                    # print(result_key, result_value)
+                    indexList_df.append(result_key)
+                    result_detail.append(result_value)
+            count += 1
+        result_df.append(result_detail)
+        print(indexList_df)
+        print(result_df)
+
+            # instrument_df_detail = pd.DataFrame(instrument, index=[0])
+            # result_df_detail = pd.DataFrame(result_detail)
+            # print(result_df_detail)
+
+            # result_df_detail.to_excel('test.xlsx')
