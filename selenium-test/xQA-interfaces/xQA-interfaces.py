@@ -43,4 +43,4 @@ if __name__ == '__main__':
     interfaces_data, res = interface_bond.result()
     resultList = json.loads(res.text)
 
-    interfaces_save.result_save(instrumentList, resultList, 'CalcBond.xlsx', 'CalcBond')
+    interfaces_save.result_save(instrumentList, resultList, excelname='CalcBond.xlsx', sheetname='CalcBond')
