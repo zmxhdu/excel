@@ -1,5 +1,8 @@
 # coding = utf-8
 import pandas as pd
+import openpyxl
+from openpyxl.utils.dataframe import dataframe_to_rows
+import xlsxwriter
 
 
 def result_save(instrumentList, resultList, excelname, sheetname):
@@ -38,4 +41,16 @@ def result_save(instrumentList, resultList, excelname, sheetname):
             count += 1
             result_df.append(result_detail)
 
-        pd.DataFrame(result_df, columns=indexList_df).to_excel(excelname, sheet_name=sheetname)
+        result_data = pd.DataFrame(result_df, columns=indexList_df)
+
+        try:
+            wb = openpyxl.load_workbook(excelname)
+            wb_sheet = wb.create_sheet(sheetname)
+        except FileNotFoundError:
+            wb = openpyxl.workbook.Workbook()
+            wb_sheet = wb.get_active_sheet()
+            wb_sheet.title = sheetname
+
+        for r in dataframe_to_rows(result_data, index=False, header=True):
+            wb_sheet.append(r)
+        wb.save(excelname)
