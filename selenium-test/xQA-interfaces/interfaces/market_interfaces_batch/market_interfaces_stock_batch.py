@@ -3,15 +3,13 @@ import json
 import requests
 
 
-class CalcTidxForReal(object):
-    def __init__(self, postUrl, header_data, iCode, aType, mType, begDate, endDate, sampleLenth,
+class CalcStockForReal_Batch(object):
+    def __init__(self, postUrl, header_data, instrumentList, begDate, endDate, sampleLenth,
                  benchID='', riskFreeRateID='', calcPeriodFrequencyType='D'):
         self.postUrl = postUrl
         self.header_data = header_data
-        self.method = 'calcTidxForReal'
-        self.iCode = iCode
-        self.aType = aType
-        self.mType = mType
+        self.method = 'calcStockForReal'
+        self.instrumentList = instrumentList
         self.begDate = begDate
         self.endDate = endDate
         self.sampleLenth = sampleLenth
@@ -22,9 +20,7 @@ class CalcTidxForReal(object):
     def result(self):
         interfaces_data = {
             "method": self.method,
-            "iCode": self.iCode,
-            "aType": self.aType,
-            "mType": self.mType,
+            "instrumentList": self.instrumentList,
             "begDate": self.begDate,
             "endDate": self.endDate,
             "sampleLenth": self.sampleLenth,
@@ -38,14 +34,12 @@ class CalcTidxForReal(object):
         return interfaces_data, result
 
 
-class CalcTidxInvlForReal(object):
-    def __init__(self, postUrl, header_data, iCode, aType, mType, begDate, endDate, sampleLenth):
+class CalcStockInvlForReal_Batch(object):
+    def __init__(self, postUrl, header_data, instrumentList, begDate, endDate, sampleLenth):
         self.postUrl = postUrl
         self.header_data = header_data
-        self.method = 'calcTidxInvlForReal'
-        self.iCode = iCode
-        self.aType = aType
-        self.mType = mType
+        self.method = 'calcStockInvlForReal'
+        self.instrumentList = instrumentList
         self.begDate = begDate
         self.endDate = endDate
         self.sampleLenth = sampleLenth
@@ -53,9 +47,7 @@ class CalcTidxInvlForReal(object):
     def result(self):
         interfaces_data = {
             "method": self.method,
-            "iCode": self.iCode,
-            "aType": self.aType,
-            "mType": self.mType,
+            "instrumentList": self.instrumentList,
             "begDate": self.begDate,
             "endDate": self.endDate,
             "sampleLenth": self.sampleLenth,
@@ -66,22 +58,18 @@ class CalcTidxInvlForReal(object):
         return interfaces_data, result
 
 
-class CalcTidx(object):
-    def __init__(self, postUrl, header_data, iCode, aType, mType, valueDate):
+class CalcStock_Batch(object):
+    def __init__(self, postUrl, header_data, instrumentList, valueDate):
         self.postUrl = postUrl
         self.header_data = header_data
-        self.method = 'calcTidx'
-        self.iCode = iCode
-        self.aType = aType
-        self.mType = mType
+        self.method = 'calcStock'
+        self.instrumentList = instrumentList
         self.valueDate = valueDate
 
     def result(self):
         interfaces_data = {
             "method": self.method,
-            "iCode": self.iCode,
-            "aType": self.aType,
-            "mType": self.mType,
+            "instrumentList": self.instrumentList,
             "valueDate": self.valueDate
         }
 

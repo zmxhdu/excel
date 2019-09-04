@@ -10,7 +10,8 @@ import interfaces_save
 
 
 # 批量接口
-postUrl = 'http://191.168.6.6:8180/xalms/engine/calcBatch.action'
+postUrl = 'http://191.168.6.6:8180/xalms/engine/calc.action'
+postUrl_batch = 'http://191.168.6.6:8180/xalms/engine/calcBatch.action'
 
 payloadHeader = {
     'Host': '191.168.6.6:8180',
@@ -29,18 +30,14 @@ if __name__ == '__main__':
     valueDate = '2019-06-30'
     sampleLenth = '0'
 
-    # 指数批量
-    # interface_tidxforreal = CalcTidxForReal(
-    #     postUrl, header_data, instrumentList, begDate, endDate, sampleLenth)
-    # 指数其他
-    # interface_tidx = CalcTidx(postUrl, header_data, instrumentList, valueDate)
-    # interfaces_data, res = interface_tidx.result()
-    # res = interface_tidx.result().text
-
-    instrumentList = [{'iCode': '151096', 'aType': 'SPT_BD', 'mType': 'XSHG'},
-                      {'iCode': '151098', 'aType': 'SPT_BD', 'mType': 'XSHG'}]
-    interface_bond = CalcBond(postUrl, header_data, instrumentList, valueDate)
+    instrumentList = [{'iCode': '151098', 'aType': 'SPT_BD', 'mType': 'XSHG'}]
+    iCode = '151098'
+    aType = 'SPT_BD'
+    mType = 'XSHG'
+    # interface_bond = CalcBond(postUrl, header_data, instrumentList, valueDate)
+    interface_bond = CalcBond(postUrl, header_data, iCode, aType, mType, valueDate)
     interfaces_data, res = interface_bond.result()
     resultList = json.loads(res.text)
-
-    interfaces_save.result_save(instrumentList, resultList, excelname='CalcBond.xlsx', sheetname='CalcBond')
+    print(type(resultList['result']['kd']))
+    # print(resultList['result'].items())
+    # interfaces_save.batch_result_save(instrumentList, resultList, excelname='CalcBond.xlsx', sheetname='CalcBond')

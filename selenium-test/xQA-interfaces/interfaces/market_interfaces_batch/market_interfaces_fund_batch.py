@@ -3,15 +3,13 @@ import json
 import requests
 
 
-class CalcFundForReal(object):
-    def __init__(self, postUrl, header_data, iCode, aType, mType, begDate, endDate, sampleLenth,
+class CalcFundForReal_Batch(object):
+    def __init__(self, postUrl, header_data, instrumentList, begDate, endDate, sampleLenth,
                  benchID='', riskFreeRateID='', calcPeriodFrequencyType='D'):
         self.postUrl = postUrl
         self.header_data = header_data
         self.method = 'calcFundForReal'
-        self.iCode = iCode
-        self.aType = aType
-        self.mType = mType
+        self.instrumentList = instrumentList
         self.begDate = begDate
         self.endDate = endDate
         self.sampleLenth = sampleLenth
@@ -22,9 +20,7 @@ class CalcFundForReal(object):
     def result(self):
         interfaces_data = {
             "method": self.method,
-            "iCode": self.iCode,
-            "aType": self.aType,
-            "mType": self.mType,
+            "instrumentList": self.instrumentList,
             "begDate": self.begDate,
             "endDate": self.endDate,
             "sampleLenth": self.sampleLenth,
@@ -38,15 +34,13 @@ class CalcFundForReal(object):
         return interfaces_data, result
 
 
-class CalcFundYearedForReal(object):
-    def __init__(self, postUrl, header_data, iCode, aType, mType, begDate, endDate, sampleLenth,
+class CalcFundYearedForReal_Batch(object):
+    def __init__(self, postUrl, header_data, instrumentList, begDate, endDate, sampleLenth,
                  benchID='', riskFreeRateID='', calcPeriodFrequencyType='D'):
         self.postUrl = postUrl
         self.header_data = header_data
         self.method = 'calcFundYearedForReal'
-        self.iCode = iCode
-        self.aType = aType
-        self.mType = mType
+        self.instrumentList = instrumentList
         self.begDate = begDate
         self.endDate = endDate
         self.sampleLenth = sampleLenth
@@ -57,9 +51,7 @@ class CalcFundYearedForReal(object):
     def result(self):
         interfaces_data = {
             "method": self.method,
-            "iCode": self.iCode,
-            "aType": self.aType,
-            "mType": self.mType,
+            "instrumentList": self.instrumentList,
             "begDate": self.begDate,
             "endDate": self.endDate,
             "sampleLenth": self.sampleLenth,
@@ -73,14 +65,12 @@ class CalcFundYearedForReal(object):
         return interfaces_data, result
 
 
-class CalcFundInvlForReal(object):
-    def __init__(self, postUrl, header_data, iCode, aType, mType, begDate, endDate, sampleLenth):
+class CalcFundInvlForReal_Batch(object):
+    def __init__(self, postUrl, header_data, instrumentList, begDate, endDate, sampleLenth):
         self.postUrl = postUrl
         self.header_data = header_data
         self.method = 'calcFundInvlForReal'
-        self.iCode = iCode
-        self.aType = aType
-        self.mType = mType
+        self.instrumentList = instrumentList
         self.begDate = begDate
         self.endDate = endDate
         self.sampleLenth = sampleLenth
@@ -88,9 +78,7 @@ class CalcFundInvlForReal(object):
     def result(self):
         interfaces_data = {
             "method": self.method,
-            "iCode": self.iCode,
-            "aType": self.aType,
-            "mType": self.mType,
+            "instrumentList": self.instrumentList,
             "begDate": self.begDate,
             "endDate": self.endDate,
             "sampleLenth": self.sampleLenth,
@@ -101,22 +89,18 @@ class CalcFundInvlForReal(object):
         return interfaces_data, result
 
 
-class CalcFund(object):
-    def __init__(self, postUrl, header_data, iCode, aType, mType, valueDate):
+class CalcFund_Batch(object):
+    def __init__(self, postUrl, header_data, instrumentList, valueDate):
         self.postUrl = postUrl
         self.header_data = header_data
         self.method = 'calcFund'
-        self.iCode = iCode
-        self.aType = aType
-        self.mType = mType
+        self.instrumentList = instrumentList
         self.valueDate = valueDate
 
     def result(self):
         interfaces_data = {
             "method": self.method,
-            "iCode": self.iCode,
-            "aType": self.aType,
-            "mType": self.mType,
+            "instrumentList": self.instrumentList,
             "valueDate": self.valueDate
         }
 
