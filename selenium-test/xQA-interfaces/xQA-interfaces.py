@@ -1,12 +1,11 @@
 # coding = utf-8
 import json
-import pandas as pd
-import numpy as np
-import requests
-import datetime
 from market_interfaces.market_interfaces_tidx import CalcTidxForReal, CalcTidxInvlForReal, CalcTidx
 from market_interfaces.market_interfaces_bond import CalcBond
+from market_interfaces_batch.market_interfaces_bond_batch import CalcBond_Batch
 import interfaces_save
+import connect_to_oracle
+import acct_conditions, market_conditions,market_batch_conditions
 
 
 # 批量接口
@@ -20,6 +19,14 @@ payloadHeader = {
 # 下载超时
 timeOut = 250
 
+host = '191.168.6.6'
+port = '1521'
+dbname = 'xalms'
+username = 'xalms_trd'
+password = 'xpar'
+
+db = connect_to_oracle.DataBase(host, port, dbname, username, password)
+
 
 if __name__ == '__main__':
     header_data = payloadHeader
@@ -30,14 +37,18 @@ if __name__ == '__main__':
     valueDate = '2019-06-30'
     sampleLenth = '0'
 
-    instrumentList = [{'iCode': '151098', 'aType': 'SPT_BD', 'mType': 'XSHG'}]
+    instrumentList = [{'iCode': '151098', 'aType': 'SPT_BD', 'mType': 'XSHG'},
+                      {'iCode': '151096', 'aType': 'SPT_BD', 'mType': 'XSHG'}]
     iCode = '151098'
     aType = 'SPT_BD'
     mType = 'XSHG'
-    # interface_bond = CalcBond(postUrl, header_data, instrumentList, valueDate)
-    interface_bond = CalcBond(postUrl, header_data, iCode, aType, mType, valueDate)
-    interfaces_data, res = interface_bond.result()
+    instrument = {'iCode': '151098',
+                  'aType': 'SPT_BD',
+                  'mType': 'XSHG'}
+    interface_bond_batch = CalcBond_Batch(postUrl_batch, header_data, instrumentList, valueDate)
+    # interface_bond = CalcBond(postUrl, header_data, iCode, aType, mType, valueDate)
+    interfaces_data, res = interface_bond_batch.result()
     resultList = json.loads(res.text)
-    print(type(resultList['result']['kd']))
-    # print(resultList['result'].items())
-    # interfaces_save.batch_result_save(instrumentList, resultList, excelname='CalcBond.xlsx', sheetname='CalcBond')
+    # interfaces_save.result_save(instrument, resultList, excelname='CalcBond', sheetname='CalcBond')
+    interfaces_save.batch_result_save(instrumentList, resultList, excelname='CalcBond', sheetname='CalcBond')
+
