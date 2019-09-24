@@ -22,7 +22,7 @@ def result_save(instrument, result, excelname, sheetname):
             else:
                 indexList_df.append(instrument_key)
                 result_detail.append(instrument_value)
-        indexList_df.append('imp_time')
+        indexList_df.append('test_time')
         result_detail.append(datetime.datetime.now())
 
         for result_key, result_value in result['result'].items():
@@ -73,7 +73,7 @@ def batch_result_save(instrumentList, resultList, excelname, sheetname):
                         indexList_df.append(instrument_key)
                     result_detail.append(instrument_value)
             if count == 0:
-                indexList_df.append('imp_time')
+                indexList_df.append('test_time')
             result_detail.append(datetime.datetime.now())
 
             for result_key, result_value in result.items():
